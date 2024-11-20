@@ -19,10 +19,16 @@
     @session('success')
     <i style="color: green;">{{session('success')}}</i>
     @endsession
+    @session('tes')
+    <i style="color: blue;">{{session('tes')}}</i>
+    @endsession
+    @session('hapus')
+    <i style="color: red;">{{session('hapus')}}</i>
+    @endsession
     <ul>
     @foreach($data as $d)
-    <li style="display: flex; margin-bottom: 20px">{{$d->name_activity}} 
-        <a href="/update-activity/{{$d->id}}">UPDATE</a>
+    <li style="display: flex; margin-bottom: 20px; flex-direction: row; justify-content:center;">{{$d->name_activity}} 
+        <a href="/update-activity/{{$d->id}}" style="margin-left: 100px">UPDATE</a>
         <form action="{{route('delete.activity', ['id' => $d->id])}}" style="margin-left: 100px" method="POST">
             @method('DELETE')
             @csrf

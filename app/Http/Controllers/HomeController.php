@@ -36,7 +36,10 @@ class HomeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data = new Activity;
+        $activity = $data->find($id);
+       
+        return view('todo-update', compact('activity'));
     }
 
     /**
@@ -44,7 +47,14 @@ class HomeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'activity' => 'required|string|min:4|max:20'
+           ]);
+           $activity = new Activity;
+           $data= $activity->find($id);
+           $data->name_activity = $request->activity;
+           $data->save();
+           return redirect('/')->with('tes', 'activity has been  update!');
     }
 
     /**
@@ -54,6 +64,6 @@ class HomeController extends Controller
     {
         $activity = new Activity;
         $activity->find($id)->delete();
-        return redirect('/')->with('success', 'activity has deleted!');
+        return redirect('/')->with('hapus', 'activity has deleted!');
     }
 }
