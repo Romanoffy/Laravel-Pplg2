@@ -1,11 +1,20 @@
 <?php
 
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index']);
-Route::post('/to-do', [HomeController::class, 'store']);
-Route::delete('/to-do/{id}', [HomeController::class, 'destroy'])->name('delete.activity');
-Route::get('/update-activity/{id}', [HomeController::class, 'show'])->name('show.activity');
-Route::put('/update-activity/{id}', [HomeController::class, 'update'])->name('update.activity');
+Route::get('/', function () {
+    return view('welcome');
+});
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
